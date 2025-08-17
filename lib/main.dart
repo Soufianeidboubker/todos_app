@@ -15,10 +15,6 @@ class TodoApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.blue.shade50,
-        textTheme: const TextTheme(
-          headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
-          bodyMedium: TextStyle(fontSize: 16, color: Colors.black54),
-        ),
       ),
       home: const HomeScreen(),
       debugShowCheckedModeBanner: false,

@@ -15,48 +15,47 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todos'),
         centerTitle: true,
-        elevation: 0,
         backgroundColor: Colors.blue.shade100,
       ),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 360),
           child: todos.isEmpty
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/empty_illustration.png', height: screenHeight * 0.3),
-                  SizedBox(height: 20),
-                  Text('No todos yet!', style: TextStyle(fontSize: 20)),
-                ],
-              )
-            : ListView.builder(
-                itemCount: todos.length,
-                itemBuilder: (context, index) {
-                  return TodoItem(
-                    todo: todos[index],
-                    onToggleCompleted: () {
-                      setState(() {
-                        todos[index].isCompleted = !todos[index].isCompleted;
-                      });
-                    },
-                  );
-                },
-              ),
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/task.png',
+                      height: 180,
+                    ),
+                    const SizedBox(height: 20),
+                    const Text('No todos yet!', style: TextStyle(fontSize: 20)),
+                  ],
+                )
+              : ListView.builder(
+                  itemCount: todos.length,
+                  itemBuilder: (context, index) {
+                    return TodoItem(
+                      todo: todos[index],
+                      onToggleCompleted: () {
+                        setState(() {
+                          todos[index].isCompleted = !todos[index].isCompleted;
+                        });
+                      },
+                    );
+                  },
+                ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final newTodo = await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddTodoScreen()),
+            MaterialPageRoute(builder: (context) => const AddTodoScreen()),
           );
           if (newTodo != null) {
             setState(() {
@@ -64,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
             });
           }
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         backgroundColor: Colors.blue,
       ),
     );

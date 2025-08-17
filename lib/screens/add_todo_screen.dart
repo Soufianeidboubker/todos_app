@@ -37,34 +37,43 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
         backgroundColor: Colors.blue.shade100,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            Image.asset(
+              'assets/images/to-do.png',
+              height: 120,
+            ),
+            const SizedBox(height: 20),
             TextField(
               controller: titleController,
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
             ),
             TextField(
               controller: descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(labelText: 'Description'),
             ),
             TextField(
               controller: categoryController,
-              decoration: InputDecoration(labelText: 'Category'),
+              decoration: const InputDecoration(labelText: 'Category'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
-                  child: Text(selectedDate == null ? 'No date chosen' : 'Due: ${selectedDate!.toLocal().toString().split(' ')[0]}'),
+                  child: Text(
+                    selectedDate == null 
+                        ? 'No date chosen' 
+                        : 'Due: ${selectedDate!.toLocal().toString().split(' ')[0]}',
+                  ),
                 ),
                 TextButton(
                   onPressed: () => _selectDate(context),
-                  child: Text('Select Date'),
+                  child: const Text('Select Date'),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 if (titleController.text.isNotEmpty) {
@@ -79,7 +88,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                   );
                 }
               },
-              child: Text('Create'),
+              child: const Text('Create'),
             ),
           ],
         ),
