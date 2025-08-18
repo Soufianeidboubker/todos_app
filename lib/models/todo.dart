@@ -1,8 +1,8 @@
 class Todo {
-  String title;
-  String description;
-  String category;
-  DateTime? dueDate;
+  final String title;
+  final String description;
+  final String category;
+  final DateTime? dueDate;
   bool isCompleted;
 
   Todo({

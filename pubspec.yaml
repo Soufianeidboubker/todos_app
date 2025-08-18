@@ -1,10 +1,8 @@
 name: todos_app
-description: "A new Flutter project."
-publish_to: 'none'
-version: 1.0.0+1
+description: "A Todo App with custom illustrations"
 
 environment:
-  sdk: ^3.8.1
+  sdk: ">=3.8.1 <4.0.0"
 
 dependencies:
   flutter:

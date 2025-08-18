@@ -9,90 +9,98 @@ class AddTodoScreen extends StatefulWidget {
 }
 
 class _AddTodoScreenState extends State<AddTodoScreen> {
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController categoryController = TextEditingController();
-  DateTime? selectedDate;
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+  final _titleController = TextEditingController();
+  final _descController = TextEditingController();
+  final _categoryController = TextEditingController();
+  DateTime? _dueDate;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Todo'),
-        centerTitle: true,
-        backgroundColor: Colors.blue.shade100,
-      ),
-      body: Padding(
+      appBar: AppBar(title: const Text('Add Todo')),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Image.asset(
               'assets/images/to-do.png',
               height: 120,
+              errorBuilder: (ctx, error, stack) => 
+                  const Icon(Icons.add_task, size: 80),
             ),
             const SizedBox(height: 20),
             TextField(
-              controller: titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
+              controller: _titleController,
+              decoration: const InputDecoration(
+                labelText: 'Title',
+                border: OutlineInputBorder(),
+              ),
             ),
+            const SizedBox(height: 16),
             TextField(
-              controller: descriptionController,
-              decoration: const InputDecoration(labelText: 'Description'),
+              controller: _descController,
+              decoration: const InputDecoration(
+                labelText: 'Description',
+                border: OutlineInputBorder(),
+              ),
             ),
+            const SizedBox(height: 16),
             TextField(
-              controller: categoryController,
-              decoration: const InputDecoration(labelText: 'Category'),
+              controller: _categoryController,
+              decoration: const InputDecoration(
+                labelText: 'Category',
+                border: OutlineInputBorder(),
+              ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
                   child: Text(
-                    selectedDate == null 
-                        ? 'No date chosen' 
-                        : 'Due: ${selectedDate!.toLocal().toString().split(' ')[0]}',
+                    _dueDate == null
+                        ? 'No date chosen'
+                        : 'Due: ${_dueDate!.toLocal().toString().split(' ')[0]}',
                   ),
                 ),
                 TextButton(
-                  onPressed: () => _selectDate(context),
+                  onPressed: _selectDate,
                   child: const Text('Select Date'),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                if (titleController.text.isNotEmpty) {
-                  Navigator.pop(
-                    context,
-                    Todo(
-                      title: titleController.text,
-                      description: descriptionController.text,
-                      category: categoryController.text,
-                      dueDate: selectedDate,
-                    ),
-                  );
-                }
-              },
-              child: const Text('Create'),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _titleController.text.isEmpty
+                    ? null
+                    : () => Navigator.pop(
+                          context,
+                          Todo(
+                            title: _titleController.text,
+                            description: _descController.text,
+                            category: _categoryController.text,
+                            dueDate: _dueDate,
+                          ),
+                        ),
+                child: const Text('Create Task'),
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _selectDate() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: _dueDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+    if (date != null) {
+      setState(() => _dueDate = date);
+    }
   }
 }

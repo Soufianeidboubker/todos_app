@@ -11,61 +11,60 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Todo> todos = [];
+  final List<Todo> _todos = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Todos'),
-        centerTitle: true,
-        backgroundColor: Colors.blue.shade100,
-      ),
+      appBar: AppBar(title: const Text('My Todos')),
       body: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 360),
-          child: todos.isEmpty
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: _todos.isEmpty
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       'assets/images/task.png',
                       height: 180,
+                      errorBuilder: (ctx, error, stack) => 
+                          const Icon(Icons.assignment, size: 80),
                     ),
                     const SizedBox(height: 20),
-                    const Text('No todos yet!', style: TextStyle(fontSize: 20)),
+                    const Text(
+                      'No todos yet!',
+                      style: TextStyle(fontSize: 20, color: Colors.grey),
+                    ),
                   ],
                 )
               : ListView.builder(
-                  itemCount: todos.length,
-                  itemBuilder: (context, index) {
-                    return TodoItem(
-                      todo: todos[index],
-                      onToggleCompleted: () {
-                        setState(() {
-                          todos[index].isCompleted = !todos[index].isCompleted;
-                        });
-                      },
-                    );
-                  },
+                  padding: const EdgeInsets.all(16),
+                  itemCount: _todos.length,
+                  itemBuilder: (ctx, index) => TodoItem(
+                    todo: _todos[index],
+                    onToggle: () => _toggleTodo(index),
+                  ),
                 ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final newTodo = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddTodoScreen()),
-          );
-          if (newTodo != null) {
-            setState(() {
-              todos.add(newTodo);
-            });
-          }
-        },
+        onPressed: _addNewTodo,
         child: const Icon(Icons.add),
-        backgroundColor: Colors.blue,
       ),
     );
+  }
+
+  void _addNewTodo() async {
+    final newTodo = await Navigator.push<Todo>(
+      context,
+      MaterialPageRoute(builder: (ctx) => const AddTodoScreen()),
+    );
+    if (newTodo != null) {
+      setState(() => _todos.add(newTodo));
+    }
+  }
+
+  void _toggleTodo(int index) {
+    setState(() => _todos[index].isCompleted = !_todos[index].isCompleted);
   }
 }
