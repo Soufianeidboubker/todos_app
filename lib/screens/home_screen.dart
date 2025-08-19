@@ -22,29 +22,30 @@ class _HomeScreenState extends State<HomeScreen> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: _todos.isEmpty
               ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/task.png',
-                      height: 180,
-                      errorBuilder: (ctx, error, stack) => 
-                          const Icon(Icons.assignment, size: 80),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'No todos yet!',
-                      style: TextStyle(fontSize: 20, color: Colors.grey),
-                    ),
-                  ],
-                )
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/task.png',
+                height: 180,
+                errorBuilder: (ctx, error, stack) =>
+                const Icon(Icons.assignment, size: 80),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'No todos yet!',
+                style: TextStyle(fontSize: 20, color: Colors.grey),
+              ),
+            ],
+          )
               : ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: _todos.length,
-                  itemBuilder: (ctx, index) => TodoItem(
-                    todo: _todos[index],
-                    onToggle: () => _toggleTodo(index),
-                  ),
-                ),
+            padding: const EdgeInsets.all(16),
+            itemCount: _todos.length,
+            itemBuilder: (ctx, index) => TodoItem(
+              todo: _todos[index],
+              onToggle: () => _toggleTodo(index),
+              onDelete: () => _deleteTodo(index),  // Add this
+            ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -66,5 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _toggleTodo(int index) {
     setState(() => _todos[index].isCompleted = !_todos[index].isCompleted);
+  }
+
+  void _deleteTodo(int index) {  // Add this method
+    setState(() => _todos.removeAt(index));
   }
 }

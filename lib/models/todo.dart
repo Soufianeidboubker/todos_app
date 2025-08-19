@@ -1,4 +1,5 @@
 class Todo {
+  final String id;
   final String title;
   final String description;
   final String category;
@@ -6,9 +7,10 @@ class Todo {
   bool isCompleted;
 
   Todo({
+    this.id = '',
     required this.title,
     this.description = '',
-    this.category = '',
+    this.category = 'Personal',
     this.dueDate,
     this.isCompleted = false,
   });

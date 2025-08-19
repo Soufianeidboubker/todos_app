@@ -1,12 +1,12 @@
 name: todos_app
 description: "A Todo App with custom illustrations"
 
+publish_to: 'none'
+
+version: 1.0.0+1
+
 environment:
   sdk: ">=3.8.1 <4.0.0"
-
-dependencies:
-  flutter:
-    sdk: flutter
 
 dev_dependencies:
   flutter_test:
